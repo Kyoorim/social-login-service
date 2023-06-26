@@ -36,10 +36,9 @@ class SocialLoginService {
             },
           };
           const result = {
+            ...response.profile,
             providerId: response.provider_id,
             provider: 'kakao',
-            user: response.profile.user,
-            scopes: response.profile.scopes,
             email: response.profile.user.email,
           };
           console.log('kakao-result:', result);
@@ -61,14 +60,9 @@ class SocialLoginService {
             },
           };
           const result = {
+            ...response.profile,
             providerId: response.provider.id,
             provider: 'naver',
-            user: {
-              id: response.profile.user_name,
-              email: response.profile.email,
-            },
-            scopes: response.profile.scopes,
-            email: response.profile.email,
           };
           console.log('naver-result:', result);
           return result;
