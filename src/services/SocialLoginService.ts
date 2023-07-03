@@ -17,7 +17,6 @@ export interface SocialLoginResponse {
   scopes?: string[];
   email?: string | null;
 }
-
 class SocialLoginService {
   private readonly provider: SocialLoginProviders;
 
@@ -35,13 +34,13 @@ class SocialLoginService {
               user: { id: 'be35f10d-1214-46af-af06-916429eaf77d', email: 'test@example.com' },
             },
           };
-          const result = {
-            ...response.profile,
+          const result: SocialLoginResponse = {
             providerId: response.provider_id,
             provider: 'kakao',
             email: response.profile.user.email,
+            scopes: response.profile.scopes,
+            user: { id: response.profile.user.id, email: response.profile.user.email },
           };
-          console.log('kakao-result:', result);
           return result;
         } catch (error) {
           return LoginErrors.LoginProviderError;
@@ -59,12 +58,13 @@ class SocialLoginService {
               email: 'test@example.com',
             },
           };
-          const result = {
-            ...response.profile,
+          const result: SocialLoginResponse = {
             providerId: response.provider.id,
             provider: 'naver',
+            email: response.profile.email,
+            scopes: response.profile.scopes,
+            user: { id: response.provider.id, email: response.profile.email },
           };
-          console.log('naver-result:', result);
           return result;
         } catch (error) {
           return LoginErrors.LoginProviderError;
