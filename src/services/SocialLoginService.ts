@@ -1,3 +1,6 @@
+import KakaoLogin from './KakaoLogin';
+import NaverLogin from './NaverLogin';
+
 export type SocialLoginProviders = 'kakao' | 'naver';
 
 interface User {
@@ -27,13 +30,8 @@ class SocialLoginService {
     switch (this.provider) {
       case 'kakao':
         try {
-          const response = {
-            provider_id: 'be35f10d-1214-46af-af06-916429eaf77d',
-            profile: {
-              scopes: ['email', 'name'],
-              user: { id: 'be35f10d-1214-46af-af06-916429eaf77d', email: 'test@example.com' },
-            },
-          };
+          const loginProvider = new KakaoLogin();
+          const response = await loginProvider.login();
           const result: SocialLoginResponse = {
             providerId: response.provider_id,
             provider: 'kakao',
@@ -48,16 +46,8 @@ class SocialLoginService {
 
       case 'naver':
         try {
-          const response = {
-            provider: {
-              id: 'be35f10d-1214-46af-af06-916429eaf77d',
-            },
-            profile: {
-              scopes: ['email', 'name'],
-              user_name: 'test',
-              email: 'test@example.com',
-            },
-          };
+          const loginProvider = new NaverLogin();
+          const response = await loginProvider.login();
           const result: SocialLoginResponse = {
             providerId: response.provider.id,
             provider: 'naver',
